@@ -6,7 +6,12 @@ const users = {
     { id: "abc123", name: "Mac", job: "Bouncer" },
     { id: "ppp222", name: "Mac", job: "Professor" },
     { id: "yat999", name: "Dee", job: "Aspring actress" },
-    { id: "zap555", name: "Dennis", job: "Bartender" }
+    { id: "zap555", name: "Dennis", job: "Bartender" },
+    {
+  "id": "qwe123",
+  "job": "Zookeeper",
+  "name": "Cindy"
+}
   ]
 };
 const findUserByName = (name) => {
@@ -16,6 +21,10 @@ const findUserByName = (name) => {
 };
 const findUserById = (id) =>
   users["users_list"].find((user) => user["id"] === id);
+const addUser = (user) => {
+  users["users_list"].push(user);
+  return user;
+};
 const app = express();
 const port = 8000;
 
@@ -25,14 +34,9 @@ app.get("/", (req, res) => {
   res.send("Hello World!");
 });
 app.get("/users", (req, res) => {
-  const name = req.query.name;
-  if (name != undefined) {
-    let result = findUserByName(name);
-    result = { users_list: result };
-    res.send(result);
-  } else {
-    res.send(users);
-  }
+ const userToAdd = req.body;
+  addUser(userToAdd);
+  res.send();
 });
 app.get("/users/:id", (req, res) => {
   const id = req.params["id"]; //or req.params.id
