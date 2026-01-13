@@ -1,0 +1,12 @@
+{
+  "name": "express-backend",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "backend.js",
+  "scripts": {
+    "start": "node backend.js"
+  },
+  "dependencies": {
+    "express": "^4.19.0"
+  }
+}
