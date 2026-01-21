@@ -37,12 +37,12 @@ const deleteUserById = (id) => {
   users.users_list.splice(index, 1);
   return true;
 };
+
 const generateId = () => Math.random().toString(36).substring(2, 8);
+
 const createUser = (body) => {
   let id = generateId();
-  while (findUserById(id)) {
-    id = generateId();
-  }
+  while (findUserById(id)) id = generateId();
   return { id, name: body.name, job: body.job };
 };
 
@@ -52,9 +52,7 @@ const port = 8000;
 app.use(cors());
 app.use(express.json());
 
-app.get("/", (req, res) => {
-  res.send("Hello World!");
-});
+app.get("/", (req, res) => res.send("Hello World!"));
 
 app.get("/users", (req, res) => {
   const name = req.query.name;
@@ -77,27 +75,22 @@ app.get("/users/:id", (req, res) => {
   const id = req.params["id"];
   const result = findUserById(id);
 
-  if (result === undefined) {
-    res.status(404).send("Resource not found.");
-  } else {
-    res.send(result);
-  }
+  if (result === undefined) return res.status(404).send("Resource not found.");
+  return res.send(result);
 });
 
 app.post("/users", (req, res) => {
-  const userToAdd = req.body; 
-  addUser(userToAdd);
-  return res.sendStatus(201).json(newUser);
+  const newUser = createUser(req.body);
+  addUser(newUser);
+  return res.status(201).json(newUser);
 });
+
 app.delete("/users/:id", (req, res) => {
   const id = req.params.id;
   const deleted = deleteUserById(id);
 
-  if (!deleted) {
-    return res.status(404).send("Resource not found.");
-  }
-
-  return res.sendStatus(200);
+  if (!deleted) return res.status(404).send("Resource not found.");
+  return res.sendStatus(204);
 });
 
 app.listen(port, () => {
