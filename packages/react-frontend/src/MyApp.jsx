@@ -27,12 +27,13 @@ function MyApp() {
 
   function updateList(person) {
     postUser(person)
-      .then((res) => {
-        if (res.status === 201) {
-          setCharacters((prev) => [...prev, person]);
-        } else {
+       .then(async (res) => {
+        if (res.status !== 201) {
           console.log(`POST /users failed. Status: ${res.status}`);
+          return;
         }
+        const createdUser = await res.json();
+        setCharacters((prev) => [...prev, createdUser]);
       })
       .catch((error) => console.log(error));
   }

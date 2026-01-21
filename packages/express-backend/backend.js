@@ -87,12 +87,7 @@ app.get("/users/:id", (req, res) => {
 app.post("/users", (req, res) => {
   const userToAdd = req.body; 
   addUser(userToAdd);
-  return res.sendStatus(201);
-});
-app.post("/users", (req, res) => {
-  const newUser = createUser(req.body);
-  addUser(newUser);
-  return res.sendStatus(201); 
+  return res.sendStatus(201).json(newUser);
 });
 app.delete("/users/:id", (req, res) => {
   const id = req.params.id;
