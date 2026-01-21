@@ -37,6 +37,14 @@ const deleteUserById = (id) => {
   users.users_list.splice(index, 1);
   return true;
 };
+const generateId = () => Math.random().toString(36).substring(2, 8);
+const createUser = (body) => {
+  let id = generateId();
+  while (findUserById(id)) {
+    id = generateId();
+  }
+  return { id, name: body.name, job: body.job };
+};
 
 const app = express();
 const port = 8000;
@@ -81,7 +89,11 @@ app.post("/users", (req, res) => {
   addUser(userToAdd);
   return res.sendStatus(201);
 });
-
+app.post("/users", (req, res) => {
+  const newUser = createUser(req.body);
+  addUser(newUser);
+  return res.sendStatus(201); 
+});
 app.delete("/users/:id", (req, res) => {
   const id = req.params.id;
   const deleted = deleteUserById(id);
