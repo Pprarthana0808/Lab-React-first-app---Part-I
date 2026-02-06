@@ -1,4 +1,3 @@
-// src/MyApp.jsx
 import React, { useState, useEffect } from "react";
 import Table from "./Table";
 import Form from "./Form";
@@ -43,7 +42,8 @@ function MyApp() {
     deleteUser(id)
       .then((res) => {
         if (res.status === 204) {
-          setCharacters((prev) => prev.filter((c) => c.id !== id));
+          // ✅ use _id instead of id
+          setCharacters((prev) => prev.filter((c) => c._id !== id));
         } else if (res.status === 404) {
           console.log("DELETE failed: user not found (404).");
         } else {
