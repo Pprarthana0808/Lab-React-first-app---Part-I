@@ -42,7 +42,6 @@ function MyApp() {
     deleteUser(id)
       .then((res) => {
         if (res.status === 204) {
-          // ✅ use _id instead of id
           setCharacters((prev) => prev.filter((c) => c._id !== id));
         } else if (res.status === 404) {
           console.log("DELETE failed: user not found (404).");
